@@ -1,6 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
+var session = require('express-session');
+var flash = require('connect-flash');
 var mongojs = require('mongojs');
 var expressValidator = require('express-validator');
 
@@ -8,7 +10,7 @@ var ObjectId = mongojs.ObjectId;
 var db = mongojs('customerapp', ['users']);
 var app = express();
 
-// Custom  Middleware
+// Custom  Middleware Example
 /*
 var logger = function (req, res, next) {
   console.log("Logging... " + req.url);
@@ -23,6 +25,9 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Middleware
+app.use(session({ secret: 'secret word', resave: true, saveUninitialized: true, cookie: { maxAge: 60000 }}));
+app.use(flash());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -58,7 +63,7 @@ app.get('/', function (req, res) {
     res.render('index', {
       title: 'Customers',
       users: docs,
-      errors: res.locals.errors
+      errors: req.flash('errors')
     });
   });
 });
@@ -71,7 +76,7 @@ app.post('/users/add', function (req, res) {
   var errors = req.validationErrors();
 
   if (errors) {
-    res.locals.errors = errors;
+    req.flash('errors', errors);
     res.redirect('/');
 
   } else {

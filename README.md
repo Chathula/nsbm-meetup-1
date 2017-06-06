@@ -12,3 +12,7 @@ npm start
 ## Note
 
 Install Nodemon Globally to run dev server
+
+```
+npm install -g nodemon
+```

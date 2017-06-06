@@ -1,0 +1,29 @@
+<% include partials/header %>
+  <h1>Add Customer</h1>
+  <% if (errors) { %>
+    <ul>
+    <% errors.map(function (error) { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+    </ul>
+  <% } %>
+  <form method="POST" action="/users/add">
+    <label>First Name</label><br>
+    <input type="text" name="first_name">
+    <br><br>
+    <label>Last Name</label><br>
+    <input type="text" name="last_name">
+    <br><br>
+    <label>Age</label><br>
+    <input type="number" name="age">
+    <br><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <h1>Hello <%= title %></h1>
+  <ul>
+    <% users.map(function (user) { %>
+      <li><%= user.first_name + " " + user.last_name %> - <%= user.age %> -- <a href="#" class="deleteUser" data-id="<%= user._id %>">Delete</a></li>
+    <% }) %>
+  </ul>
+<% include partials/footer %>
